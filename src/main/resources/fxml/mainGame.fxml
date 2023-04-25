@@ -34,12 +34,6 @@
             <RowConstraints minHeight="-Infinity" prefHeight="100.0" vgrow="NEVER" />
             <RowConstraints minHeight="-Infinity" prefHeight="100.0" vgrow="NEVER" />
         </rowConstraints>
-         <children>
-            <Circle radius="50.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <Circle fill="WHITE" radius="50.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-            <Circle fill="WHITE" radius="50.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-            <Circle radius="50.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-         </children>
       </GridPane>
       <VBox layoutX="800.0" prefHeight="800.0" prefWidth="130.0" style="-fx-background-color: #D3D3D3; -fx-border-color: #000000;">
          <children>
@@ -48,7 +42,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Circle radius="65.0" stroke="BLACK" strokeType="INSIDE">
+            <Circle fx:id="currentPlayerDisk" radius="65.0" stroke="BLACK" strokeType="INSIDE">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
@@ -58,7 +52,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label prefHeight="30.0" prefWidth="130.0" text="2" textAlignment="CENTER">
+            <Label fx:id="numberOfBlackDisks" prefHeight="30.0" prefWidth="130.0" text="0" textAlignment="CENTER">
                <font>
                   <Font size="20.0" />
                </font>
@@ -68,7 +62,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Label prefHeight="30.0" prefWidth="130.0" text="2">
+            <Label fx:id="numberOfWhiteDisks" prefHeight="30.0" prefWidth="130.0" text="0">
                <font>
                   <Font size="20.0" />
                </font>
@@ -76,7 +70,7 @@
                   <Insets bottom="10.0" />
                </padding>
             </Label>
-            <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="130.0" style="-fx-background-color: #ECECEC; -fx-border-color: #000000;" text="Restart">
+            <Button mnemonicParsing="false" onAction="#restartGame" prefHeight="100.0" prefWidth="130.0" style="-fx-background-color: #ECECEC; -fx-border-color: #000000;" text="Restart">
                <font>
                   <Font size="25.0" />
                </font>

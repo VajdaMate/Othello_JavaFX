@@ -9,8 +9,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="800.0" prefWidth="950.0" style="-fx-background-color: #966F33;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Start">
+<AnchorPane prefHeight="800.0" prefWidth="950.0" style="-fx-background-color: #966F33;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StartScreenController">
    <children>
       <Label layoutX="325.0" layoutY="14.0" text="Othello" textFill="WHITE">
          <font>
@@ -45,7 +44,7 @@
             <Circle radius="29.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="4" GridPane.rowIndex="4" />
          </children>
       </GridPane>
-      <Button layoutX="297.0" layoutY="155.0" mnemonicParsing="false" prefHeight="123.0" prefWidth="369.0" text="Start game">
+      <Button layoutX="297.0" layoutY="155.0" mnemonicParsing="false" onAction="#startButtonPressed" prefHeight="123.0" prefWidth="369.0" text="Start game">
          <font>
             <Font size="58.0" />
          </font>

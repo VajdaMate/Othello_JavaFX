@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="950.0" style="-fx-background-color: #966F33;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="950.0" style="-fx-background-color: #966F33;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EndScreenController">
    <children>
       <Label layoutX="270.0" layoutY="14.0" text="Game Result" textFill="#0bb346">
          <font>
@@ -26,22 +25,22 @@
             <Font size="40.0" />
          </font>
       </Label>
-      <Label layoutX="259.0" layoutY="186.0" text="0" textFill="WHITE">
+      <Label fx:id="endWhiteDisks" layoutX="259.0" layoutY="186.0" text="0" textFill="WHITE">
          <font>
             <Font size="40.0" />
          </font>
       </Label>
-      <Label layoutX="666.0" layoutY="186.0" text="0">
+      <Label fx:id="endBlackDisks" layoutX="666.0" layoutY="186.0" text="0">
          <font>
             <Font size="40.0" />
          </font>
       </Label>
-      <Button layoutX="343.0" layoutY="244.0" mnemonicParsing="false" style="-fx-background-color: #bf852d;" text="Restart">
+      <Button fx:id="endRestartButton" layoutX="343.0" layoutY="244.0" mnemonicParsing="false" onAction="#restartGame" style="-fx-background-color: #bf852d;" text="Restart">
          <font>
             <Font size="60.0" />
          </font>
       </Button>
-      <GridPane gridLinesVisible="true" layoutX="286.0" layoutY="400.0" prefHeight="380.0" prefWidth="380.0" style="-fx-background-color: #0BB346;">
+      <GridPane fx:id="endBoard" gridLinesVisible="true" layoutX="286.0" layoutY="400.0" prefHeight="380.0" prefWidth="380.0" style="-fx-background-color: #0BB346;">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="75.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="75.0" />
