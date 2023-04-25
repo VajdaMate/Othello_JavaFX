@@ -8,11 +8,16 @@ import javafx.stage.Stage;
 
 public class OthelloApplication extends Application {
 
+
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/startScreen.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/startScreen.fxml"));
+        Parent root = fxmlLoader.load();
         stage.setTitle("Othello");
+        stage.setResizable(false);
         stage.setScene(new Scene(root));
         stage.show();
     }
+
+
 }
