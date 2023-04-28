@@ -29,6 +29,7 @@ public class GameBoardController {
             for (int j = 0; j < gameBoard.getColumnCount(); j++) {
                 var circle = createCircle(i, j);
                 gameBoard.add(circle, j, i);
+
             }
         }
 
@@ -42,6 +43,10 @@ public class GameBoardController {
         }
         else if ((i==3 && j==4) || (i==4 && j==3)){
             circle.setFill(Color.WHITE);
+            circle.setOpacity(1);
+        }
+        else if (model.getGameBoard()[i][j].isValid()) {
+            circle.setFill(Color.GRAY);
             circle.setOpacity(1);
         }
         return circle;

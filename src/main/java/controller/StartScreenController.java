@@ -19,6 +19,5 @@ public class StartScreenController {
         Parent root = loader.load();
         stage.setScene(new Scene(root));
         stage.show();
-
     }
 }
