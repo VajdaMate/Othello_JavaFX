@@ -1,15 +1,17 @@
 package model;
 
 import javafx.util.Pair;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+
 
 public class GameModel {
 
     private Disk[][] gameBoard =new Disk[8][8];
     private boolean currentPlayer;
+    private int whiteNumber;
+    private int blackNumber;
+    private Colors winner;
 
     public GameModel() {
         for (var i = 0; i < 8; i++) {
@@ -27,23 +29,53 @@ public class GameModel {
         validSteps();
     }
 
+    public void calculateNumbers(){
+        int tempWhite=0;
+        int tempBlack=0;
+        for (var i = 0; i < 8; i++) {
+            for (var j = 0; j < 8; j++) {
+                if (gameBoard[i][j].getColor()==Colors.WHITE)
+                    tempWhite++;
+                else if (gameBoard[i][j].getColor()==Colors.BLACK)
+                    tempBlack++;
+            }
+        }
+        this.whiteNumber=tempWhite;
+        this.blackNumber=tempBlack;
+    }
 
-    private Colors opponentColor(){
+    public int getWhiteNumber() {
+        return whiteNumber;
+    }
+
+    public int getBlackNumber() {
+        return blackNumber;
+    }
+
+    public Colors opponentColor(){
         if (currentPlayer)
             return Colors.BLACK;
         else
             return Colors.WHITE;
     }
 
-    private Colors currentColor(){
+    public Colors currentColor(){
         if (currentPlayer)
             return Colors.WHITE;
         else
             return Colors.BLACK;
     }
 
-    public void nextPlayer(){
-        currentPlayer=!currentPlayer;
+    private void nextPlayer(){
+        validSteps();
+        var tempSteps=allSteps();
+        boolean areThereValids=false;
+        for (var position:tempSteps){
+            if (gameBoard[position.getRow()][position.getColumn()].isValid())
+                areThereValids=true;
+        }
+        if(areThereValids)
+            currentPlayer=!currentPlayer;
     }
 
 
@@ -71,7 +103,7 @@ public class GameModel {
         return stepsList;
     }
 
-    public void validSteps() {
+    private void validSteps() {
         ArrayList<Position> allSteps = allSteps();
         for (var step : allSteps) {
             var neighbourList=enemyNeighbours(step.getRow(), step.getColumn());
@@ -98,13 +130,43 @@ public class GameModel {
         }
     }
 
-    public void putDisk(int i, int j){
+    public void putDisk(int row, int column){
+        if (gameBoard[row][column].isValid()) {
+            gameBoard[row][column].setColor(currentColor());
+            var neighbourList = enemyNeighbours(row, column);
+            for (var vector : neighbourList) {
+                List<Disk> needTurning = new ArrayList<>();
+                int x = vector.getKey();
+                int y = vector.getValue();
+                int startX = row + x;
+                int startY = column + y;
+                while ((startX >= 0 && startX < 8) && (startY >= 0 && startY < 8)) {
+                    startX += x;
+                    startY += y;
+                    if (gameBoard[startX][startY].getColor() == opponentColor()) {
+                        needTurning.add(gameBoard[startX][startY]);
+                    } else if (gameBoard[startX][startY].getColor() == currentColor())
+                        for (var disk : needTurning) {
+                            disk.setColor(currentColor());
+                        }
+                    else {
+                        break;
+                    }
+                }
+            }
+            if (!isItOver()) {
+                nextPlayer();
+                validSteps();
+            }
+            else{
+                winner=currentColor();
+            }
+        }
+    }
 
 
-
-
-        nextPlayer();
-        validSteps();
+    public boolean isItOver(){
+        return whiteNumber == 0 || blackNumber == 0 || blackNumber + whiteNumber == 64;
     }
 
     public Disk[][] getGameBoard() {

@@ -23,6 +23,7 @@ public class Disk {
         this.color = color;
     }
 
+
     public void setValid() {
         this.valid = true;
     }
