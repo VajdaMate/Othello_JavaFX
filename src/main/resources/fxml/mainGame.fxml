@@ -13,7 +13,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="798.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GameBoardController">
    <children>
-      <GridPane fx:id="gameBoard" gridLinesVisible="true" onMouseClicked="#diskDrop" style="-fx-background-color: #0BB346;">
+      <GridPane fx:id="gameBoard" gridLinesVisible="true" style="-fx-background-color: #0BB346;">
         <columnConstraints>
           <ColumnConstraints hgrow="NEVER" minWidth="-Infinity" prefWidth="100.0" />
           <ColumnConstraints hgrow="NEVER" minWidth="-Infinity" prefWidth="100.0" />

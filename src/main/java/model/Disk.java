@@ -1,13 +1,16 @@
 package model;
 
+import javafx.beans.Observable;
+import javafx.beans.property.SimpleObjectProperty;
+
 public class Disk {
-    private Position position;
-    private Colors color;
+    private final Position position;
+    private SimpleObjectProperty<Colors> color;
     private boolean valid;
 
     public Disk(Position position, Colors color) {
         this.position = position;
-        this.color=color;
+        this.color = new SimpleObjectProperty<>(color);
         valid=false;
     }
 
@@ -16,19 +19,17 @@ public class Disk {
     }
 
     public Colors getColor() {
-        return color;
+        return color.get();
     }
 
     public void setColor(Colors color) {
-        this.color = color;
+        this.color.set(color);
+    }
+
+    public Observable colorProperty() {
+        return color;
     }
 
 
-    public void setValid() {
-        this.valid = true;
-    }
 
-    public boolean isValid() {
-        return valid;
-    }
 }
