@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -57,15 +56,11 @@ public class EndScreenController {
     }
 
     private Color getColor(Colors color) {
-        switch (color) {
-            case BLACK:
-                return Color.BLACK;
-            case WHITE:
-                return Color.WHITE;
-            case VALID:
-                return Color.LIGHTSLATEGRAY;
-            default:
-                return Color.TRANSPARENT;
-        }
+        return switch (color) {
+            case BLACK -> Color.BLACK;
+            case WHITE -> Color.WHITE;
+            case VALID -> Color.LIGHTSLATEGRAY;
+            default -> Color.TRANSPARENT;
+        };
     }
 }

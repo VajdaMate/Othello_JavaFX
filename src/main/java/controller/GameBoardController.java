@@ -2,10 +2,8 @@ package controller;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import model.Colors;
 import model.GameModel;
@@ -23,7 +21,7 @@ import javafx.scene.shape.Circle;
 import javafx.beans.binding.Bindings;
 
 import java.io.IOException;
-import java.util.List;
+
 
 import org.tinylog.Logger;
 
@@ -108,23 +106,17 @@ public class GameBoardController {
 
 
     private Color getColor(Colors color) {
-        switch (color) {
-            case BLACK:
-                return Color.BLACK;
-            case WHITE:
-                return Color.WHITE;
-            case VALID:
-                return Color.LIGHTSLATEGRAY;
-            default:
-                return Color.TRANSPARENT;
-        }
-    }
-    public GameModel getMainGame(){
-        return model;
+        return switch (color) {
+            case BLACK -> Color.BLACK;
+            case WHITE -> Color.WHITE;
+            case VALID -> Color.LIGHTSLATEGRAY;
+            default -> Color.TRANSPARENT;
+        };
     }
 
+
     @FXML
-    public void restartGame(ActionEvent actionEvent) throws IOException {
+    public void restartGame() throws IOException {
         Stage stage = (Stage) gameBoard.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainGame.fxml"));
         Parent root = loader.load();

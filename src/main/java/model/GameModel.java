@@ -145,7 +145,6 @@ public class GameModel {
     public void putDisk(int row, int col){
         List<String> lepesek =new ArrayList<>();
         gameBoard[row][col].setColor(currentColor());
-        lepesek.add(String.valueOf(row)+", "+String.valueOf(col));
         var neighbourList = enemyNeighbours(row, col);
         for (var vector : neighbourList) {
             List<Disk> needTurning = new ArrayList<>();
@@ -172,8 +171,6 @@ public class GameModel {
         }
         calculateNumbers();
         nextPlayer();
-        Logger.info(lepesek);
-        Logger.info(opponentColor());
 
     }
 

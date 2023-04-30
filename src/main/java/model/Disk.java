@@ -6,12 +6,10 @@ import javafx.beans.property.SimpleObjectProperty;
 public class Disk {
     private final Position position;
     private SimpleObjectProperty<Colors> color;
-    private boolean valid;
 
     public Disk(Position position, Colors color) {
         this.position = position;
         this.color = new SimpleObjectProperty<>(color);
-        valid=false;
     }
 
     public Position getPosition() {
