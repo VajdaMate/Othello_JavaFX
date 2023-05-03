@@ -14,6 +14,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import model.Colors;
 import model.GameModel;
+import org.tinylog.Logger;
 
 import java.io.IOException;
 
@@ -31,11 +32,23 @@ public class EndScreenController {
 
     public void setModel(GameModel model) {
         this.model = model;
+        setUpBoard();
     }
 
+    public void setUpBoard(){
+        for (int i = 0; i < endBoard.getRowCount(); i++) {
+            for (int j = 0; j < endBoard.getColumnCount(); j++) {
+                var circle = new Circle(23.75);
+                circle.setFill(getColor(model.getGameBoard()[i][j].getColor()));
+                endBoard.add(circle,j,i);
+            }
+        }
+        endWhiteDisks.setText(String.valueOf(model.getWhiteNumber()));
+        endBlackDisks.setText(String.valueOf(model.getBlackNumber()));
+    }
 
     public void initialize() {
-        model=new GameModel();
+        model =new GameModel();
         for (int i = 0; i < endBoard.getRowCount(); i++) {
             for (int j = 0; j < endBoard.getColumnCount(); j++) {
                 var circle = new Circle(23.75);
@@ -53,6 +66,7 @@ public class EndScreenController {
         Parent root = loader.load();
         stage.setScene(new Scene(root));
         stage.show();
+        Logger.info("Game Restarted");
     }
 
     private Color getColor(Colors color) {

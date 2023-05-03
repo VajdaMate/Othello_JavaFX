@@ -91,7 +91,7 @@ public class GameModel {
                 if( ((row+i>=0 || i>=0) && (row+i<=boardSize-1 || i<1)) &&
                     ((col+j>=0 || j>=0) && (col+j<=boardSize-1 || j<1)) ){
                     if (gameBoard[row+i][col+j].getColor()==opponentColor())
-                        positionVector.add(new Pair<>(i, j));
+                            positionVector.add(new Pair<>(i, j));
                 }
             }
         }
@@ -106,7 +106,6 @@ public class GameModel {
                     stepsList.add(new Position(i,j));
             }
         }
-        Logger.debug(stepsList.toString());
         return stepsList;
     }
 
@@ -126,8 +125,6 @@ public class GameModel {
                     int y = vector.getValue();
                     int startX=step.getRow()+x;
                     int startY=step.getColumn()+y;
-                    /*while ( ((startX>=1) || (x>=0)) && ((startX<=7) || (x<1)) &&
-                            ((startY>=1  || (y>=0)) && ((startY<=7) || (y<1))) )*/
                     while (((startX >= 0) && (startX <= 7)) && ((startY >= 0) && (startY <= 7))){
                         if (gameBoard[startX][startY].getColor()==currentColor()){
                             gameBoard[step.getRow()][step.getColumn()].setColor(Colors.VALID);
@@ -143,7 +140,6 @@ public class GameModel {
     }
 
     public void putDisk(int row, int col){
-        List<String> lepesek =new ArrayList<>();
         gameBoard[row][col].setColor(currentColor());
         var neighbourList = enemyNeighbours(row, col);
         for (var vector : neighbourList) {

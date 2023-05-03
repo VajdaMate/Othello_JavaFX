@@ -10,7 +10,6 @@ import model.GameModel;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -56,6 +55,7 @@ public class GameBoardController {
         currentPlayerDisk.fillProperty().bind(currentColorValue);
         numberOfWhiteDisks.textProperty().bind(whiteValue);
         numberOfBlackDisks.textProperty().bind(blackValue);
+        Logger.info("Game Initialized");
     }
 
 
@@ -64,9 +64,6 @@ public class GameBoardController {
         var circle = new Circle(50);
         circle.fillProperty().bind(Bindings.createObjectBinding(() ->
                 getColor(model.getGameBoard()[row][col].getColor()), model.getGameBoard()[row][col].colorProperty()));
-
-
-
         square.getChildren().add(circle);
         square.setOnMouseClicked(this::diskPut);
         return square;
@@ -80,11 +77,16 @@ public class GameBoardController {
         var row = GridPane.getRowIndex(square);
         var col = GridPane.getColumnIndex(square);
         if (model.getGameBoard()[row][col].getColor()==Colors.VALID) {
+            Logger.info(("%s put a disk at the board at: %d,%d")
+                    .formatted((model.currentColor().toString()),row+1,col+1));
             model.putDisk(row,col);
             whiteValue.set(String.valueOf(model.getWhiteNumber()));
             blackValue.set(String.valueOf(model.getBlackNumber()));
             currentColorValue.set(getColor(model.currentColor()));
             if (model.isOver()) {
+                Logger.info("The Game is Over");
+                Logger.info(("The scores are: Black:%s   White: %s")
+                        .formatted(numberOfBlackDisks,numberOfWhiteDisks));
                 try {
                     nextScene();
                 } catch (IOException e) {
@@ -95,11 +97,11 @@ public class GameBoardController {
     }
 
     private void nextScene() throws IOException {
-        Stage stage = (Stage) gameBoard.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/endScreen.fxml"));
-        //EndScreenController controller =loader.getController();
-        //controller.setModel(model);
         Parent root=loader.load();
+        EndScreenController endScreenController = loader.getController();
+        endScreenController.setModel(model);
+        Stage stage = (Stage) gameBoard.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
     }
@@ -122,7 +124,10 @@ public class GameBoardController {
         Parent root = loader.load();
         stage.setScene(new Scene(root));
         stage.show();
+        Logger.info("Game Restarted");
     }
 
-
+    public GameModel getModel() {
+        return model;
+    }
 }
