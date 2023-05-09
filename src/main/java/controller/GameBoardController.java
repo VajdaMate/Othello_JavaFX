@@ -20,6 +20,7 @@ import javafx.scene.shape.Circle;
 import javafx.beans.binding.Bindings;
 
 import java.io.IOException;
+
 import org.tinylog.Logger;
 
 public class GameBoardController {
@@ -76,7 +77,6 @@ public class GameBoardController {
         };
     }
 
-
     @FXML
     public void diskPut(MouseEvent mouseEvent) {
         StackPane square = (StackPane) mouseEvent.getSource();
@@ -86,9 +86,7 @@ public class GameBoardController {
             Logger.info(("%s put a disk on the board at: %d,%d")
                     .formatted((model.currentColor().toString()),row+1,col+1));
             model.putDisk(row,col);
-            whiteValue.set(String.valueOf(model.getWhiteNumber()));
-            blackValue.set(String.valueOf(model.getBlackNumber()));
-            currentColorValue.set(getColor(model.currentColor()));
+            modelUpdate();
             if (model.isOver()) {
                 Logger.info("The Game is Over");
                 Logger.info(("The scores are: White:%s   Black: %s")
@@ -96,6 +94,11 @@ public class GameBoardController {
                 nextScene();
             }
         }
+    }
+    private void modelUpdate(){
+        whiteValue.set(String.valueOf(model.getWhiteNumber()));
+        blackValue.set(String.valueOf(model.getBlackNumber()));
+        currentColorValue.set(getColor(model.currentColor()));
     }
 
 
@@ -124,4 +127,10 @@ public class GameBoardController {
         stage.show();
         Logger.info("Game Restarted");
     }
+
+    @FXML
+    public void previousModel() {
+
+    }
+
 }
