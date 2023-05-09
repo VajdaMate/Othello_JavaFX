@@ -36,11 +36,11 @@ public class EndScreenController {
     }
 
     public void setUpBoard(){
-        for (int i = 0; i < endBoard.getRowCount(); i++) {
-            for (int j = 0; j < endBoard.getColumnCount(); j++) {
+        for (int row = 0; row < endBoard.getRowCount(); row++) {
+            for (int col = 0; col < endBoard.getColumnCount(); col++) {
                 var circle = new Circle(23.75);
-                circle.setFill(getColor(model.getGameBoard()[i][j].getColor()));
-                endBoard.add(circle,j,i);
+                circle.setFill(getColor(model.getDisk(row,col).getColor()));
+                endBoard.add(circle,col,row);
             }
         }
         endWhiteDisks.setText(String.valueOf(model.getWhiteNumber()));
@@ -48,16 +48,6 @@ public class EndScreenController {
     }
 
     public void initialize() {
-        model =new GameModel();
-        for (int i = 0; i < endBoard.getRowCount(); i++) {
-            for (int j = 0; j < endBoard.getColumnCount(); j++) {
-                var circle = new Circle(23.75);
-                circle.setFill(getColor(model.getGameBoard()[i][j].getColor()));
-                endBoard.add(circle,i,j);
-            }
-        }
-        endWhiteDisks.setText(String.valueOf(model.getWhiteNumber()));
-        endBlackDisks.setText(String.valueOf(model.getBlackNumber()));
     }
 
     public void restartGame(ActionEvent actionEvent) throws IOException {
