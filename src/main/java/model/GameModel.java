@@ -150,6 +150,9 @@ public class GameModel {
                         disk.setColor(currentColor());
                     }
                 }
+                else {
+                    break;
+                }
                 currentXPosition += xAxisDirection;
                 currentYPosition += yAxisDirection;
             }
