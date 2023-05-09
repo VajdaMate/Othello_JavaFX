@@ -18,7 +18,7 @@ public class GameModel {
     public GameModel() {
         for (var row = 0; row < boardSize; row++) {
             for (var col = 0; col < boardSize; col++) {
-                gameBoard[row][col] = new Disk(new Position(row,col),Colors.NONE);
+                gameBoard[row][col] = new Disk(Colors.NONE);
                 if ((row==3 && col==3) || (row==4 && col==4)) {
                     gameBoard[row][col].setColor(Colors.WHITE);
                 }

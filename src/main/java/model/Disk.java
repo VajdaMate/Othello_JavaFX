@@ -4,11 +4,9 @@ import javafx.beans.Observable;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class Disk {
-    private final Position position;
     private SimpleObjectProperty<Colors> color;
 
-    public Disk(Position position, Colors color) {
-        this.position = position;
+    public Disk(Colors color) {
         this.color = new SimpleObjectProperty<>(color);
     }
 
@@ -24,7 +22,4 @@ public class Disk {
     public Observable colorProperty() {
         return color;
     }
-
-
-
 }
