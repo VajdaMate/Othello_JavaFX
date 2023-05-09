@@ -63,7 +63,7 @@ public class GameBoardController {
         var square = new StackPane();
         var circle = new Circle(50);
         circle.fillProperty().bind(Bindings.createObjectBinding(() ->
-                getColor(model.getGameBoard()[row][col].getColor()), model.getGameBoard()[row][col].colorProperty()));
+                getColor(model.getDisk(row,col).getColor()), model.getDisk(row,col).colorProperty()));
         square.getChildren().add(circle);
         square.setOnMouseClicked(this::diskPut);
         return square;
@@ -76,8 +76,8 @@ public class GameBoardController {
         StackPane square = (StackPane) mouseEvent.getSource();
         var row = GridPane.getRowIndex(square);
         var col = GridPane.getColumnIndex(square);
-        if (model.getGameBoard()[row][col].getColor()==Colors.VALID) {
-            Logger.info(("%s put a disk at the board at: %d,%d")
+        if (model.getDisk(row,col).getColor()==Colors.VALID) {
+            Logger.info(("%s put a disk on the board at: %d,%d")
                     .formatted((model.currentColor().toString()),row+1,col+1));
             model.putDisk(row,col);
             whiteValue.set(String.valueOf(model.getWhiteNumber()));
@@ -85,8 +85,8 @@ public class GameBoardController {
             currentColorValue.set(getColor(model.currentColor()));
             if (model.isOver()) {
                 Logger.info("The Game is Over");
-                Logger.info(("The scores are: Black:%s   White: %s")
-                        .formatted(numberOfBlackDisks,numberOfWhiteDisks));
+                Logger.info(("The scores are: White:%s   Black: %s")
+                        .formatted(numberOfWhiteDisks.getText(),numberOfBlackDisks.getText()));
                 try {
                     nextScene();
                 } catch (IOException e) {
@@ -127,7 +127,4 @@ public class GameBoardController {
         Logger.info("Game Restarted");
     }
 
-    public GameModel getModel() {
-        return model;
-    }
 }

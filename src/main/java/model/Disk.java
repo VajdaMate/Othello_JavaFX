@@ -12,9 +12,6 @@ public class Disk {
         this.color = new SimpleObjectProperty<>(color);
     }
 
-    public Position getPosition() {
-        return position;
-    }
 
     public Colors getColor() {
         return color.get();
