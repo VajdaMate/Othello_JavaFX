@@ -1,5 +1,7 @@
 package model;
 
+import javafx.fxml.FXML;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +15,7 @@ public class GameModel {
     private int blackNumber;
     private int validNumber;
     private boolean Over;
+    private List<ResultOfFlipping> previousFlips=new ArrayList<>();
 
 
     public GameModel() {
@@ -31,8 +34,6 @@ public class GameModel {
         validSteps();
         calculateNumbers();
     }
-
-
 
     public int getWhiteNumber() {
         return whiteNumber;
@@ -134,6 +135,8 @@ public class GameModel {
     public void putDisk(int row, int col){
         gameBoard[row][col].setColor(currentColor());
         var neighbourList = enemyNeighbours(row, col);
+        Position triggerPosition=new Position(row,col);
+        List<Position> turnedPositions=new ArrayList<>();
         for (var vector : neighbourList) {
             List<Disk> needTurning = new ArrayList<>();
             int xAxisDirection = vector.xAxisDirection();
@@ -144,6 +147,7 @@ public class GameModel {
                    (currentYPosition >= 0 && currentYPosition <=boardSize-1)) {
                 if (gameBoard[currentXPosition][currentYPosition].getColor() == opponentColor()) {
                     needTurning.add(gameBoard[currentXPosition][currentYPosition]);
+                    turnedPositions.add(new Position(currentXPosition,currentYPosition));
                 }
                 else if (gameBoard[currentXPosition][currentYPosition].getColor() == currentColor()){
                     for (var disk : needTurning) {
@@ -155,8 +159,10 @@ public class GameModel {
                 }
                 currentXPosition += xAxisDirection;
                 currentYPosition += yAxisDirection;
+
             }
         }
+        previousFlips.add(new ResultOfFlipping(triggerPosition,turnedPositions,opponentColor()));
         nextPlayer();
     }
 
@@ -182,5 +188,15 @@ public class GameModel {
             }
         }
         return directionVectors;
+    }
+    public void undo(){
+        if (previousFlips.size()>=1) {
+            ResultOfFlipping prevFlip = previousFlips.remove(previousFlips.size() - 1);
+            gameBoard[prevFlip.getTriggerPosition().getRow()][prevFlip.getTriggerPosition().getColumn()].setColor(Colors.NONE);
+            for (var flip : prevFlip.getFlippedPositions()) {
+                gameBoard[flip.getRow()][flip.getColumn()].setColor(prevFlip.getColor());
+            }
+            nextPlayer();
+        }
     }
 }

@@ -130,7 +130,8 @@ public class GameBoardController {
 
     @FXML
     public void previousModel() {
-
+        model.undo();
+        modelUpdate();
     }
 
 }
