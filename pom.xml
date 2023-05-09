@@ -26,7 +26,7 @@
         <maven.checkstyle.version>3.2.1</maven.checkstyle.version>
         <maven.surefire.version>3.0.0</maven.surefire.version>
         <jacoco.version>0.8.9</jacoco.version>
-        <exec.mainClass>GameMain</exec.mainClass>
+        <exec.mainClass>Main.GameMain</exec.mainClass>
     </properties>
     <dependencies>
         <dependency>
