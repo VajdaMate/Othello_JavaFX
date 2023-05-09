@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ResultOfFlipping {
     Position triggerPosition;
-    List<Position> flippedPositions =new ArrayList<>();
+    List<Position> flippedPositions;
     Colors currentcolor;
 
     public ResultOfFlipping(Position triggerPosition, List<Position> flippedPositions, Colors currentcolor) {

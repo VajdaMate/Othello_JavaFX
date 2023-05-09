@@ -1,7 +1,5 @@
 package model;
 
-import javafx.fxml.FXML;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +13,7 @@ public class GameModel {
     private int blackNumber;
     private int validNumber;
     private boolean Over;
-    private List<ResultOfFlipping> previousFlips=new ArrayList<>();
+    private final List<ResultOfFlipping> previousFlips=new ArrayList<>();
 
 
     public GameModel() {
