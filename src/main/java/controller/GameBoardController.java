@@ -1,13 +1,13 @@
 package controller;
+import model.Colors;
+import model.GameModel;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.Colors;
-import model.GameModel;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
@@ -20,8 +20,6 @@ import javafx.scene.shape.Circle;
 import javafx.beans.binding.Bindings;
 
 import java.io.IOException;
-
-
 import org.tinylog.Logger;
 
 public class GameBoardController {
@@ -41,23 +39,23 @@ public class GameBoardController {
     @FXML
     public void initialize() {
         model = new GameModel();
-        for (int i = 0; i < gameBoard.getRowCount(); i++) {
-            for (int j = 0; j < gameBoard.getColumnCount(); j++) {
-                var square = createSquare(i, j);
-                gameBoard.add(square, j, i);
+        for (int row = 0; row < gameBoard.getRowCount(); row++) {
+            for (int col = 0; col < gameBoard.getColumnCount(); col++) {
+                var square = createSquare(row, col);
+                gameBoard.add(square, col, row);
             }
         }
-
+        bindSetup();
+        Logger.info("Game Initialized");
+    }
+    private void bindSetup(){
         currentColorValue.set(getColor(model.currentColor()));
         whiteValue.set(String.valueOf(model.getWhiteNumber()));
         blackValue.set(String.valueOf(model.getBlackNumber()));
-
         currentPlayerDisk.fillProperty().bind(currentColorValue);
         numberOfWhiteDisks.textProperty().bind(whiteValue);
         numberOfBlackDisks.textProperty().bind(blackValue);
-        Logger.info("Game Initialized");
     }
-
 
     private StackPane createSquare(int row, int col) {
         var square = new StackPane();
@@ -69,6 +67,14 @@ public class GameBoardController {
         return square;
     }
 
+    private Color getColor(Colors color) {
+        return switch (color) {
+            case BLACK -> Color.BLACK;
+            case WHITE -> Color.WHITE;
+            case VALID -> Color.LIGHTSLATEGRAY;
+            default -> Color.TRANSPARENT;
+        };
+    }
 
 
     @FXML
@@ -87,44 +93,35 @@ public class GameBoardController {
                 Logger.info("The Game is Over");
                 Logger.info(("The scores are: White:%s   Black: %s")
                         .formatted(numberOfWhiteDisks.getText(),numberOfBlackDisks.getText()));
-                try {
-                    nextScene();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                nextScene();
             }
         }
     }
 
-    private void nextScene() throws IOException {
+
+    private Parent fxmlLoading(FXMLLoader loader){
+        try {
+            return loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private void nextScene() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/endScreen.fxml"));
-        Parent root=loader.load();
+        Parent root=fxmlLoading(loader);
         EndScreenController endScreenController = loader.getController();
         endScreenController.setModel(model);
         Stage stage = (Stage) gameBoard.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
     }
-
-
-    private Color getColor(Colors color) {
-        return switch (color) {
-            case BLACK -> Color.BLACK;
-            case WHITE -> Color.WHITE;
-            case VALID -> Color.LIGHTSLATEGRAY;
-            default -> Color.TRANSPARENT;
-        };
-    }
-
-
     @FXML
-    public void restartGame() throws IOException {
-        Stage stage = (Stage) gameBoard.getScene().getWindow();
+    public void restartGame() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainGame.fxml"));
-        Parent root = loader.load();
+        Parent root=fxmlLoading(loader);
+        Stage stage = (Stage) gameBoard.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
         Logger.info("Game Restarted");
     }
-
 }

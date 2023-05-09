@@ -29,13 +29,12 @@ public class EndScreenController {
     public GridPane endBoard;
     private GameModel model;
 
-
     public void setModel(GameModel model) {
         this.model = model;
         setUpBoard();
     }
 
-    public void setUpBoard(){
+    private void setUpBoard(){
         for (int row = 0; row < endBoard.getRowCount(); row++) {
             for (int col = 0; col < endBoard.getColumnCount(); col++) {
                 var circle = new Circle(23.75);
@@ -46,19 +45,6 @@ public class EndScreenController {
         endWhiteDisks.setText(String.valueOf(model.getWhiteNumber()));
         endBlackDisks.setText(String.valueOf(model.getBlackNumber()));
     }
-
-    public void initialize() {
-    }
-
-    public void restartGame(ActionEvent actionEvent) throws IOException {
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainGame.fxml"));
-        Parent root = loader.load();
-        stage.setScene(new Scene(root));
-        stage.show();
-        Logger.info("Game Restarted");
-    }
-
     private Color getColor(Colors color) {
         return switch (color) {
             case BLACK -> Color.BLACK;
@@ -66,5 +52,15 @@ public class EndScreenController {
             case VALID -> Color.LIGHTSLATEGRAY;
             default -> Color.TRANSPARENT;
         };
+    }
+
+    @FXML
+    public void restartGame(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainGame.fxml"));
+        Parent root = loader.load();
+        stage.setScene(new Scene(root));
+        stage.show();
+        Logger.info("Game Restarted");
     }
 }
