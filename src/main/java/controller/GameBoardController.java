@@ -34,9 +34,9 @@ public class GameBoardController {
     @FXML
     public GridPane gameBoard;
     private GameModel model;
-    private StringProperty whiteValue = new SimpleStringProperty();
-    private StringProperty blackValue = new SimpleStringProperty();
-    private ObjectProperty<Color> currentColorValue = new SimpleObjectProperty<>();
+    private final StringProperty whiteValue = new SimpleStringProperty();
+    private final StringProperty blackValue = new SimpleStringProperty();
+    private final ObjectProperty<Color> currentColorValue = new SimpleObjectProperty<>();
 
     @FXML
     public void initialize() {

@@ -4,7 +4,7 @@ import javafx.beans.Observable;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class Disk {
-    private SimpleObjectProperty<Colors> color;
+    private final SimpleObjectProperty<Colors> color;
 
     public Disk(Colors color) {
         this.color = new SimpleObjectProperty<>(color);
