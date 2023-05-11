@@ -20,13 +20,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
         <maven.compiler.release>17</maven.compiler.release>
+        <exec.mainClass>Main.GameMain</exec.mainClass>
         <javafx.version>20</javafx.version>
         <junit.jupiter.version>5.9.2</junit.jupiter.version>
         <maven.javadoc.version>3.5.0</maven.javadoc.version>
         <maven.checkstyle.version>3.2.1</maven.checkstyle.version>
         <maven.surefire.version>3.0.0</maven.surefire.version>
         <jacoco.version>0.8.9</jacoco.version>
-        <exec.mainClass>Main.GameMain</exec.mainClass>
     </properties>
     <dependencies>
         <dependency>

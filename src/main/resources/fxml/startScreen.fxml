@@ -11,12 +11,12 @@
 
 <AnchorPane prefHeight="800.0" prefWidth="950.0" style="-fx-background-color: #966F33;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StartScreenController">
    <children>
-      <Label layoutX="325.0" layoutY="14.0" text="Othello" textFill="WHITE">
+      <Label layoutX="319.0" layoutY="-25.0" prefHeight="108.0" prefWidth="314.0" text="Othello" textFill="WHITE">
          <font>
             <Font size="96.0" />
          </font>
       </Label>
-      <GridPane gridLinesVisible="true" layoutX="250.0" layoutY="303.0" prefHeight="463.0" prefWidth="463.0" style="-fx-background-color: #0BB346;">
+      <GridPane gridLinesVisible="true" layoutX="244.0" layoutY="245.0" prefHeight="463.0" prefWidth="463.0" style="-fx-background-color: #0BB346;">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="75.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="75.0" />
@@ -38,15 +38,20 @@
             <RowConstraints minHeight="10.0" prefHeight="75.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Circle radius="29.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-            <Circle fill="WHITE" radius="29.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-            <Circle fill="WHITE" radius="29.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-            <Circle radius="29.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+            <Circle radius="29.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <Circle fill="WHITE" radius="29.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+            <Circle fill="WHITE" radius="29.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <Circle radius="29.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="4" GridPane.rowIndex="3" />
          </children>
       </GridPane>
-      <Button layoutX="297.0" layoutY="155.0" mnemonicParsing="false" onAction="#startButtonPressed" prefHeight="123.0" prefWidth="369.0" text="Start game">
+      <Button layoutX="292.0" layoutY="97.0" mnemonicParsing="false" onAction="#startButtonPressed" prefHeight="123.0" prefWidth="369.0" text="Start game">
          <font>
             <Font size="58.0" />
+         </font>
+      </Button>
+      <Button layoutX="318.0" layoutY="721.0" mnemonicParsing="false" onAction="#prevGamesScene" prefHeight="65.0" prefWidth="314.0" text="Previous Games">
+         <font>
+            <Font size="30.0" />
          </font>
       </Button>
    </children>

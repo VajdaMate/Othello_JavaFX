@@ -57,7 +57,7 @@ public class EndScreenController {
     @FXML
     public void restartGame(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainGame.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/startScreen.fxml"));
         Parent root = loader.load();
         stage.setScene(new Scene(root));
         stage.show();
