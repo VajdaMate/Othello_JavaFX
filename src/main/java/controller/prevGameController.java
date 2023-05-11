@@ -13,7 +13,7 @@ import java.io.IOException;
 public class prevGameController {
     @FXML
     public void backToTheStart(ActionEvent actionEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainGame.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/startScreen.fxml"));
         Parent root = loader.load();
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));

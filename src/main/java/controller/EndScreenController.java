@@ -55,12 +55,30 @@ public class EndScreenController {
     }
 
     @FXML
-    public void restartGame(ActionEvent actionEvent) throws IOException {
+    public void restartGame(ActionEvent actionEvent)  {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainGame.fxml"));
+        Parent root = fxmlLoading(loader);
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/startScreen.fxml"));
-        Parent root = loader.load();
         stage.setScene(new Scene(root));
         stage.show();
         Logger.info("Game Restarted");
+    }
+
+    @FXML
+    public void backToTheStart(ActionEvent actionEvent) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/startScreen.fxml"));
+        Parent root = fxmlLoading(loader);
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+        Logger.info("Back to the Start Menu");
+    }
+
+    private Parent fxmlLoading(FXMLLoader loader){
+        try {
+            return loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

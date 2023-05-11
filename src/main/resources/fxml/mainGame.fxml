@@ -82,6 +82,14 @@
                <font>
                   <Font size="25.0" />
                </font>
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#backToStart" prefHeight="100.0" prefWidth="130.0" style="-fx-background-color: #ECECEC; -fx-border-color: #000000;" text="Start Menu" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font size="26.0" />
+               </font>
             </Button>
          </children>
          <padding>
