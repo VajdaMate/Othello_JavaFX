@@ -103,15 +103,16 @@ public class GameBoardController {
         }
     }
     private void bindSetup(){
-        currentColorValue.set(getColor(model.currentColor()));
-        whiteValue.set(String.valueOf(model.getWhiteNumber()));
-        blackValue.set(String.valueOf(model.getBlackNumber()));
+        currentPlayerDisk.fillProperty().bind(currentColorValue);
+        numberOfWhiteDisks.textProperty().bind(whiteValue);
+        numberOfBlackDisks.textProperty().bind(blackValue);
         modelUpdate();
     }
     private void modelUpdate(){
+        currentColorValue.set(getColor(model.currentColor()));
         whiteValue.set(String.valueOf(model.getWhiteNumber()));
         blackValue.set(String.valueOf(model.getBlackNumber()));
-        currentColorValue.set(getColor(model.currentColor()));
+
     }
     private void nextScene() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/endScreen.fxml"));

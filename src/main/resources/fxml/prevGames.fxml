@@ -14,14 +14,17 @@
 
 <AnchorPane maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" style="-fx-background-color: #966F33;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.prevGameController">
    <children>
-      <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #966F33;">
+      <VBox maxHeight="900.0" maxWidth="600.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="501.0" prefWidth="600.0" style="-fx-background-color: #966F33;">
          <children>
-            <Button minHeight="100.0" mnemonicParsing="false" onAction="#backToTheStart" prefHeight="100.0" prefWidth="600.0" text="Back to the Start Menu">
+            <Button alignment="CENTER" minHeight="50.0" mnemonicParsing="false" onAction="#backToTheStart" prefHeight="50.0" prefWidth="300.0" text="Back to the Start Menu" textAlignment="CENTER">
                <font>
-                  <Font size="43.0" />
+                  <Font size="22.0" />
                </font>
+               <VBox.margin>
+                  <Insets bottom="20.0" left="150.0" top="20.0" />
+               </VBox.margin>
             </Button>
-            <ScrollPane hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="600.0" minHeight="401.0" minWidth="600.0" style="-fx-background-color: #966F33;">
+            <ScrollPane hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="400.0" minWidth="-Infinity" prefWidth="600.0" style="-fx-background-color: #966F33;">
                <content>
                   <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #966F33;">
                      <children>
@@ -71,8 +74,14 @@
                            </children>
                         </HBox>
                      </children>
+                     <padding>
+                        <Insets bottom="50.0" />
+                     </padding>
                   </AnchorPane>
                </content>
+               <VBox.margin>
+                  <Insets bottom="50.0" />
+               </VBox.margin>
             </ScrollPane>
          </children>
       </VBox>

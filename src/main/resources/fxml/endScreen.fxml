@@ -35,7 +35,7 @@
             <Font size="40.0" />
          </font>
       </Label>
-      <Button fx:id="endRestartButton" layoutX="138.0" layoutY="244.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#restartGame" prefHeight="163.0" prefWidth="265.0" style="-fx-background-color: #bf852d;" text="Restart">
+      <Button layoutX="138.0" layoutY="244.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#restartGame" prefHeight="163.0" prefWidth="265.0" style="-fx-background-color: #bf852d;" text="Restart">
          <font>
             <Font size="60.0" />
          </font>
@@ -62,7 +62,7 @@
             <RowConstraints minHeight="10.0" prefHeight="75.0" vgrow="SOMETIMES" />
          </rowConstraints>
       </GridPane>
-      <Button fx:id="endRestartButton1" layoutX="552.0" layoutY="244.0" maxHeight="163.0" maxWidth="256.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#backToTheStart" prefHeight="163.0" prefWidth="256.0" style="-fx-background-color: #bf852d;" text="Start Menu" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+      <Button layoutX="552.0" layoutY="244.0" maxHeight="163.0" maxWidth="256.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#backToTheStart" prefHeight="163.0" prefWidth="256.0" style="-fx-background-color: #bf852d;" text="Start Menu" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
          <font>
             <Font size="42.0" />
          </font>

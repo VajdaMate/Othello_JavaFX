@@ -1,5 +1,7 @@
 package controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,9 +15,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import model.Colors;
+import model.EndGameState;
 import model.GameModel;
 import org.tinylog.Logger;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class EndScreenController {
@@ -23,8 +28,6 @@ public class EndScreenController {
     public Label endWhiteDisks;
     @FXML
     public Label endBlackDisks;
-    @FXML
-    public Button endRestartButton;
     @FXML
     public GridPane endBoard;
     private GameModel model;
@@ -44,7 +47,20 @@ public class EndScreenController {
         }
         endWhiteDisks.setText(String.valueOf(model.getWhiteNumber()));
         endBlackDisks.setText(String.valueOf(model.getBlackNumber()));
+        writeResult();
     }
+
+    private void writeResult()  {
+        var objectMapper =new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+        try {
+            FileWriter writer = new FileWriter("results.json",true);
+            EndGameState endGameState= model.getEndGameState();
+            objectMapper.writeValue(writer,endGameState);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private Color getColor(Colors color) {
         return switch (color) {
             case BLACK -> Color.BLACK;
