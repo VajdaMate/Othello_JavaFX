@@ -12,8 +12,7 @@ public class GameModel {
     private int validNumber;
     private boolean Over;
     private final List<ResultOfFlipping> previousFlips=new ArrayList<>();
-
-
+    private EndGameState endGameState;
     public GameModel() {
         for (var row = 0; row < boardSize; row++) {
             for (var col = 0; col < boardSize; col++) {
@@ -39,6 +38,10 @@ public class GameModel {
         return blackNumber;
     }
 
+    public EndGameState getEndGameState() {
+        return endGameState;
+    }
+
     public Colors opponentColor(){
         if (currentPlayer)
             return Colors.BLACK;
@@ -53,10 +56,6 @@ public class GameModel {
             return Colors.BLACK;
     }
 
-    public boolean isGameOver(){
-        return whiteNumber == 0 || blackNumber == 0 || blackNumber + whiteNumber == 64 || validNumber==0;
-    }
-
     public  Disk getDisk(int row,int col) {
         return gameBoard[row][col];
     }
@@ -64,6 +63,12 @@ public class GameModel {
     public boolean isOver() {
         return Over;
     }
+
+    public boolean isGameOver(){
+        return whiteNumber == 0 || blackNumber == 0 || blackNumber + whiteNumber == 64 || validNumber==0;
+    }
+
+
 
     public void undo(){
         if (previousFlips.size()>=1) {
@@ -97,6 +102,7 @@ public class GameModel {
                     for (var disk : needTurning) {
                         disk.setColor(currentColor());
                     }
+                    break;
                 }
                 else {
                     break;
@@ -112,8 +118,11 @@ public class GameModel {
 
     private void nextPlayer(){
         calculateNumbers();
-        if (isGameOver())
+        if (isGameOver()){
             Over=true;
+            resetValid();
+            setUpEndGameState();
+        }
         else {
             currentPlayer = !currentPlayer;
             validSteps();
@@ -122,6 +131,9 @@ public class GameModel {
                 validSteps();
             }
         }
+    }
+    private void setUpEndGameState() {
+        endGameState = new EndGameState(whiteNumber,blackNumber,gameBoard);
     }
 
     private void calculateNumbers(){
