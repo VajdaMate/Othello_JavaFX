@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,8 +66,10 @@ public class EndScreenController {
 
     private void writeResult()  {
         var objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-        var filePath="results.json";
-        var file = new File(filePath);
+        var fileName="results.json";
+        String absolutePath = Path.of("").toAbsolutePath().toString();
+        String absoluteFilePath = absolutePath + File.separator + fileName;
+        var file = new File(absoluteFilePath);
         List<EndGameState> endGameStates;
         if (file.exists()) {
             try {
@@ -81,20 +83,16 @@ public class EndScreenController {
         }
 
         try {
-            String absolutePath = Paths.get("").toAbsolutePath().toString();
-            String absoluteFilePath = absolutePath + File.separator + filePath;
             var writer = new FileWriter(absoluteFilePath);
             ArrayNode rootArrayNode = objectMapper.createArrayNode();
             for (EndGameState state : endGameStates) {
                 ObjectNode stateNode = objectMapper.valueToTree(state);
                 rootArrayNode.add(stateNode);
             }
-
             EndGameState newEndGameState = model.getEndGameState();
             ObjectNode newEndGameStateNode = objectMapper.valueToTree(newEndGameState);
             rootArrayNode.add(newEndGameStateNode);
             objectMapper.writeValue(writer, rootArrayNode);
-
         }catch (IOException e) {
             throw new RuntimeException("Cannot write JSON file: " + e.getMessage());
         }

@@ -17,5 +17,5 @@ The objective of the game is to have more pieces of your color on the board than
 
 1. Clone this repository.
 2. Open the project in your preferred IDE.
-3. Run the `Main.GameMain.java` file.
+3. Run the `main.GameMain.java` file.
 

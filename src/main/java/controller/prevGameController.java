@@ -21,7 +21,7 @@ import model.Disk;
 import model.EndGameState;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,10 +44,10 @@ public class prevGameController {
     @FXML
     public void initialize() {
         ObjectMapper objectMapper = new ObjectMapper();
-        var filePath="results.json";
+        var fileName="results.json";
         try {
-            String absolutePath = Paths.get("").toAbsolutePath().toString();
-            String absoluteFilePath = absolutePath + File.separator + filePath;
+            var absolutePath= Path.of("").toAbsolutePath().toString();
+            String absoluteFilePath = absolutePath + File.separator + fileName;
             var absolutFile=new File(absoluteFilePath);
             List<EndGameState> endGameStates = objectMapper.readValue(absolutFile, new TypeReference<>() {
             });
