@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,11 +50,9 @@ public class prevGameController {
     public void initialize() {
         ObjectMapper objectMapper = new ObjectMapper();
         var filePath="results.json";
-        File file = new File(filePath);
         try {
-            String jarPath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
-            jarPath = URLDecoder.decode(jarPath, StandardCharsets.UTF_8);
-            String absoluteFilePath = new File(jarPath).getParent() + File.separator + filePath;
+            String absolutePath = Paths.get("").toAbsolutePath().toString();
+            String absoluteFilePath = absolutePath + File.separator + filePath;
             var absolutFile=new File(absoluteFilePath);
             List<EndGameState> endGameStates = objectMapper.readValue(absolutFile, new TypeReference<>() {
             });

@@ -26,6 +26,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,13 +83,8 @@ public class EndScreenController {
         }
 
         try {
-            // Get the absolute path to the JAR file's location
-            String jarPath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
-            jarPath = URLDecoder.decode(jarPath, StandardCharsets.UTF_8);
-
-            // Adjust the file path relative to the JAR file's location
-            String absoluteFilePath = new File(jarPath).getParent() + File.separator + filePath;
-
+            String absolutePath = Paths.get("").toAbsolutePath().toString();
+            String absoluteFilePath = absolutePath + File.separator + filePath;
             var writer = new FileWriter(absoluteFilePath);
             ArrayNode rootArrayNode = objectMapper.createArrayNode();
             for (EndGameState state : endGameStates) {
