@@ -56,47 +56,6 @@ public class EndScreenController {
         writeResult();
     }
 
-    private void writeResult()  {
-        var objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-        File file = new File("results.json");
-        List<EndGameState> endGameStates;
-
-        if (file.exists()) {
-            try {
-                // Read the existing JSON file and parse it as a List<EndGameState>
-                endGameStates = objectMapper.readValue(file, new TypeReference<List<EndGameState>>() {});
-            } catch (IOException e) {
-                throw new RuntimeException("Error reading existing JSON file: " + e.getMessage());
-            }
-        } else {
-            // Create a new List<EndGameState> if the file doesn't exist
-            endGameStates = new ArrayList<>();
-        }
-
-        try {
-            FileWriter writer = new FileWriter("results.json");
-
-            // Create a root JSON array node
-            ArrayNode rootArrayNode = objectMapper.createArrayNode();
-
-            // Add the existing endGameStates to the root array
-            for (EndGameState state : endGameStates) {
-                ObjectNode stateNode = objectMapper.valueToTree(state);
-                rootArrayNode.add(stateNode);
-            }
-
-            // Add the new endGameState to the root array
-            EndGameState newEndGameState = model.getEndGameState();
-            ObjectNode newEndGameStateNode = objectMapper.valueToTree(newEndGameState);
-            rootArrayNode.add(newEndGameStateNode);
-
-            // Write the updated root array to the JSON file
-            objectMapper.writeValue(writer, rootArrayNode);
-        } catch (IOException e) {
-            throw new RuntimeException("Error writing JSON file: " + e.getMessage());
-        }
-    }
-
     private Color getColor(Colors color) {
         return switch (color) {
             case BLACK -> Color.BLACK;
@@ -104,6 +63,39 @@ public class EndScreenController {
             case VALID -> Color.LIGHTSLATEGRAY;
             default -> Color.TRANSPARENT;
         };
+    }
+
+    private void writeResult()  {
+        var objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+        var file = new File("results.json");
+        List<EndGameState> endGameStates;
+        if (file.exists()) {
+            try {
+                endGameStates = objectMapper.readValue(file, new TypeReference<>() {});
+            } catch (IOException e) {
+                throw new RuntimeException("Cannot read the JSON file: " + e.getMessage());
+            }
+        }
+        else {
+            endGameStates = new ArrayList<>();
+        }
+
+        try {
+            var writer = new FileWriter("results.json");
+            ArrayNode rootArrayNode = objectMapper.createArrayNode();
+            for (EndGameState state : endGameStates) {
+                ObjectNode stateNode = objectMapper.valueToTree(state);
+                rootArrayNode.add(stateNode);
+            }
+
+            EndGameState newEndGameState = model.getEndGameState();
+            ObjectNode newEndGameStateNode = objectMapper.valueToTree(newEndGameState);
+            rootArrayNode.add(newEndGameStateNode);
+            objectMapper.writeValue(writer, rootArrayNode);
+
+        }catch (IOException e) {
+            throw new RuntimeException("Cannot write JSON file: " + e.getMessage());
+        }
     }
 
     @FXML
@@ -124,6 +116,7 @@ public class EndScreenController {
         stage.setScene(new Scene(root));
         stage.show();
         Logger.info("Back to the Start Menu");
+
     }
 
     private Parent fxmlLoading(FXMLLoader loader){
