@@ -1,17 +1,16 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ResultOfFlipping {
     Position triggerPosition;
     List<Position> flippedPositions;
-    Colors currentcolor;
+    Colors currentColor;
 
-    public ResultOfFlipping(Position triggerPosition, List<Position> flippedPositions, Colors currentcolor) {
+    public ResultOfFlipping(Position triggerPosition, List<Position> flippedPositions, Colors currentColor) {
         this.triggerPosition = triggerPosition;
         this.flippedPositions = flippedPositions;
-        this.currentcolor = currentcolor;
+        this.currentColor = currentColor;
     }
 
     public List<Position> getFlippedPositions() {
@@ -19,7 +18,7 @@ public class ResultOfFlipping {
     }
 
     public Colors getColor(){
-        return currentcolor;
+        return currentColor;
     }
 
     public Position getTriggerPosition() {

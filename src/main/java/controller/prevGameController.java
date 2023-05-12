@@ -5,14 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
@@ -21,11 +19,8 @@ import javafx.geometry.Insets;
 import model.Colors;
 import model.Disk;
 import model.EndGameState;
-
 import java.io.File;
 import java.io.IOException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +30,7 @@ public class prevGameController {
 
     @FXML
     public VBox mainBox;
-    private List<EndGameState> endStates =new ArrayList<>();
+    private final List<EndGameState> endStates =new ArrayList<>();
 
     @FXML
     public void backToTheStart(ActionEvent actionEvent) throws IOException {
