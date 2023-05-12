@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import model.Colors;
@@ -22,6 +24,8 @@ import model.EndGameState;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,9 +48,14 @@ public class prevGameController {
     @FXML
     public void initialize() {
         ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File("results.json");
+        var filePath="results.json";
+        File file = new File(filePath);
         try {
-            List<EndGameState> endGameStates = objectMapper.readValue(file, new TypeReference<List<EndGameState>>() {
+            String jarPath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+            jarPath = URLDecoder.decode(jarPath, StandardCharsets.UTF_8);
+            String absoluteFilePath = new File(jarPath).getParent() + File.separator + filePath;
+            var absolutFile=new File(absoluteFilePath);
+            List<EndGameState> endGameStates = objectMapper.readValue(absolutFile, new TypeReference<>() {
             });
             this.endStates.addAll(endGameStates);
         } catch (IOException e) {
@@ -55,26 +64,22 @@ public class prevGameController {
         addBoards();
     }
 
-
     private void addBoards(){
-        for (var states:endStates){
-            var anchorPane=makeAnchor();
-            var whiteLabel=makeWhiteLabel(states.getWhiteNumber());
-            var blackLabel=makeBlackLabel(states.getBlackNumber());
-            VBox vbox = new VBox();
-            vbox.setMinSize(200,400);
-            vbox.setStyle("-fx-background-color: #966F33;");
-            vbox.getChildren().addAll(whiteLabel,blackLabel);
-            var gridPane=makeGridPane(states.getBoard());
-            HBox hbox=new HBox();
-            hbox.getChildren().addAll(gridPane, vbox);
-            AnchorPane.setTopAnchor(hbox, 0.0);
-            AnchorPane.setRightAnchor(hbox, 0.0);
-            AnchorPane.setBottomAnchor(hbox, 0.0);
-            AnchorPane.setLeftAnchor(hbox, 0.0);
-            anchorPane.getChildren().add(hbox);
+        for (var state:endStates){
+            var anchorPane=makePane(state);
             mainBox.getChildren().add(anchorPane);
         }
+    }
+
+    private AnchorPane makePane(EndGameState state){
+        var anchorPane=makeAnchor();
+        var whiteLabel=makeLabel(state.getWhiteNumber(),Color.WHITE);
+        var blackLabel=makeLabel(state.getBlackNumber(),Color.BLACK);
+        var vBox=makeVbox(whiteLabel,blackLabel);
+        var gridPane=makeGridPane(state.getBoard());
+        var hBox=setupHbox(gridPane,vBox);
+        anchorPane.getChildren().add(hBox);
+        return anchorPane;
     }
 
     private AnchorPane makeAnchor(){
@@ -85,74 +90,52 @@ public class prevGameController {
         anchorPane.setPrefSize(anchorWidth, anchorHeight);
         anchorPane.setPadding(new Insets(0, 0, 50, 0));
         return anchorPane;
-
+    }
+    private Label makeLabel(int number, Color color){
+        Label label = new Label(getColorName(color)+" disks: "+"\n"+ number);
+        label.setMinSize(200, 200);
+        label.setFont(new Font(29));
+        label.setTextFill(color);
+        label.setWrapText(true);
+        label.setTextAlignment(TextAlignment.CENTER);
+        label.setContentDisplay(javafx.scene.control.ContentDisplay.CENTER);
+        return label;
+    }
+    private String getColorName(Color color) {
+        String hexColor=color.toString();
+        return switch (hexColor) {
+            case "0x000000ff" -> "Black";
+            case "0xffffffff" -> "White";
+            default -> hexColor;
+        };
     }
 
+    private VBox makeVbox(Label whiteLabel,Label blackLabel){
+        VBox vbox = new VBox();
+        vbox.setMinSize(200,400);
+        vbox.setStyle("-fx-background-color: #966F33;");
+        vbox.getChildren().addAll(whiteLabel,blackLabel);
+        return vbox;
+    }
     private GridPane makeGridPane(Disk[][] board){
         GridPane gridPane = new GridPane();
         gridPane.setGridLinesVisible(true);
         gridPane.setPrefSize(400, 400);
         gridPane.setGridLinesVisible(true);
         gridPane.setStyle("-fx-background-color: #0BB346;");
-        /*makeRows(gridPane);
-        makeColumns(gridPane);*/
         addCircles(gridPane,board);
         return gridPane;
     }
-    /*private void makeColumns(GridPane gridPane){
-        for (int i = 0; i < gridPane.getColumnCount(); i++) {
-            ColumnConstraints columnConstraints = new ColumnConstraints();
-            columnConstraints.setHgrow(javafx.scene.layout.Priority.NEVER);
-            columnConstraints.setMinWidth(50);
-            columnConstraints.setMaxWidth(Double.POSITIVE_INFINITY);
-            gridPane.getColumnConstraints().add(columnConstraints);
-        }
-    }*/
-
-    /*private void makeRows(GridPane gridPane){
-        for (int i = 0; i < gridPane.getRowCount(); i++) {;
-            RowConstraints rowConstraints = new RowConstraints();
-            rowConstraints.setMinHeight(50);
-            rowConstraints.setMaxHeight(Double.POSITIVE_INFINITY);
-            rowConstraints.setVgrow(javafx.scene.layout.Priority.NEVER);
-            gridPane.getRowConstraints().add(rowConstraints);
-        }
-    }*/
-
     private void addCircles(GridPane gridPane, Disk[][] board){
         for (var row=0;row<8;row++){
             for (var col = 0; col<8;col++){
                 var circle = new Circle(25);
-                circle.setFill(getColor(board[row][col].getColor()));
+                circle.setFill(getOwnColor(board[row][col].getColor()));
                 gridPane.add(circle,col,row);
             }
         }
     }
-
-    private Label makeWhiteLabel(int whiteNumber){
-        Label whiteLabel = new Label("White disks: "+ whiteNumber);
-        whiteLabel.setMinSize(200, 200);
-        whiteLabel.setFont(new Font(40));
-        whiteLabel.setTextFill(Color.WHITE);
-        whiteLabel.setWrapText(true);
-        whiteLabel.setContentDisplay(javafx.scene.control.ContentDisplay.CENTER);
-        //VBox.setMargin(whiteLabel, new Insets(50, 0, 50, 0));
-        return whiteLabel;
-    }
-    private Label makeBlackLabel(int blackNumber){
-        Label blackLabel = new Label("Black disks:"+ blackNumber);
-        blackLabel.setMinSize(200, 200);
-        blackLabel.setFont(new Font(40));
-        blackLabel.setTextFill(Color.BLACK);
-        blackLabel.setWrapText(true);
-        blackLabel.setContentDisplay(javafx.scene.control.ContentDisplay.CENTER);
-        //VBox.setMargin(blackLabel, new Insets(50, 0, 50, 0));
-        return blackLabel;
-    }
-
-
-
-    private Color getColor(Colors color) {
+    private Color getOwnColor(Colors color) {
         return switch (color) {
             case BLACK -> Color.BLACK;
             case WHITE -> Color.WHITE;
@@ -160,6 +143,13 @@ public class prevGameController {
             default -> Color.TRANSPARENT;
         };
     }
-
-
+    private HBox setupHbox(GridPane gridPane,VBox vbox){
+        HBox hbox=new HBox();
+        hbox.getChildren().addAll(gridPane, vbox);
+        AnchorPane.setTopAnchor(hbox, 0.0);
+        AnchorPane.setRightAnchor(hbox, 0.0);
+        AnchorPane.setBottomAnchor(hbox, 0.0);
+        AnchorPane.setLeftAnchor(hbox, 0.0);
+        return hbox;
+    }
 }

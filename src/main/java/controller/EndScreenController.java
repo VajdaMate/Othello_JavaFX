@@ -1,6 +1,5 @@
 package controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -11,7 +10,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -26,6 +24,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class EndScreenController {
         for (int row = 0; row < endBoard.getRowCount(); row++) {
             for (int col = 0; col < endBoard.getColumnCount(); col++) {
                 var circle = new Circle(23.75);
-                circle.setFill(getColor(model.getDisk(row,col).getColor()));
+                circle.setFill(getOwnColor(model.getDisk(row,col).getColor()));
                 endBoard.add(circle,col,row);
             }
         }
@@ -56,7 +56,7 @@ public class EndScreenController {
         writeResult();
     }
 
-    private Color getColor(Colors color) {
+    private Color getOwnColor(Colors color) {
         return switch (color) {
             case BLACK -> Color.BLACK;
             case WHITE -> Color.WHITE;
@@ -67,7 +67,8 @@ public class EndScreenController {
 
     private void writeResult()  {
         var objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-        var file = new File("results.json");
+        var filePath="results.json";
+        var file = new File(filePath);
         List<EndGameState> endGameStates;
         if (file.exists()) {
             try {
@@ -81,7 +82,14 @@ public class EndScreenController {
         }
 
         try {
-            var writer = new FileWriter("results.json");
+            // Get the absolute path to the JAR file's location
+            String jarPath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+            jarPath = URLDecoder.decode(jarPath, StandardCharsets.UTF_8);
+
+            // Adjust the file path relative to the JAR file's location
+            String absoluteFilePath = new File(jarPath).getParent() + File.separator + filePath;
+
+            var writer = new FileWriter(absoluteFilePath);
             ArrayNode rootArrayNode = objectMapper.createArrayNode();
             for (EndGameState state : endGameStates) {
                 ObjectNode stateNode = objectMapper.valueToTree(state);

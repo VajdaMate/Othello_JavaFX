@@ -1,5 +1,4 @@
 package controller;
-import javafx.event.ActionEvent;
 import model.Colors;
 import model.GameModel;
 
@@ -54,7 +53,7 @@ public class GameBoardController {
         var square = new StackPane();
         var circle = new Circle(50);
         circle.fillProperty().bind(Bindings.createObjectBinding(() ->
-                getColor(model.getDisk(row,col).getColor()), model.getDisk(row,col).colorProperty()));
+                getOwnColor(model.getDisk(row,col).getColor()), model.getDisk(row,col).colorProperty()));
         square.getChildren().add(circle);
         square.setOnMouseClicked(this::diskPut);
         return square;
@@ -109,7 +108,7 @@ public class GameBoardController {
         modelUpdate();
     }
     private void modelUpdate(){
-        currentColorValue.set(getColor(model.currentColor()));
+        currentColorValue.set(getOwnColor(model.currentColor()));
         whiteValue.set(String.valueOf(model.getWhiteNumber()));
         blackValue.set(String.valueOf(model.getBlackNumber()));
 
@@ -123,7 +122,7 @@ public class GameBoardController {
         stage.setScene(new Scene(root));
         stage.show();
     }
-    private Color getColor(Colors color) {
+    private Color getOwnColor(Colors color) {
         return switch (color) {
             case BLACK -> Color.BLACK;
             case WHITE -> Color.WHITE;
