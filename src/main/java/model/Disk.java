@@ -24,6 +24,4 @@ public class Disk {
     public Observable colorProperty() {
         return color;
     }
-
-
 }

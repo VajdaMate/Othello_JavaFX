@@ -19,6 +19,8 @@ import javafx.geometry.Insets;
 import model.Colors;
 import model.Disk;
 import model.EndGameState;
+import org.tinylog.Logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -26,8 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class prevGameController {
-
-
     @FXML
     public VBox mainBox;
     private final List<EndGameState> endStates =new ArrayList<>();
@@ -39,7 +39,7 @@ public class prevGameController {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
-
+        Logger.info("Back to the Start menu");
     }
     @FXML
     public void initialize() {
@@ -50,12 +50,14 @@ public class prevGameController {
             String absoluteFilePath = absolutePath + File.separator + fileName;
             var file=new File(absoluteFilePath);
             if (file.exists()) {
-            List<EndGameState> endGameStates = objectMapper.readValue(file, new TypeReference<>() {
-            });
-            this.endStates.addAll(endGameStates);
+                List<EndGameState> endGameStates = objectMapper.readValue(file, new TypeReference<>() {
+                });
+                this.endStates.addAll(endGameStates);
+                Logger.debug("End states read in from match history");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.error("Cannot read the JSON file"+"\n"+ e);
+            throw new RuntimeException("Cannot read the JSON file: " + e.getMessage());
         }
         addBoards();
     }
@@ -65,6 +67,7 @@ public class prevGameController {
             var anchorPane=makePane(state);
             mainBox.getChildren().add(anchorPane);
         }
+        Logger.info("Showing Match history");
     }
 
     private AnchorPane makePane(EndGameState state){

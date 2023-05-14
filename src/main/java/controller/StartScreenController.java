@@ -19,13 +19,7 @@ import java.nio.file.Path;
 
 public class StartScreenController {
 
-    private Parent fxmlLoading(FXMLLoader loader){
-        try {
-            return loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
     @FXML
     public void startButtonPressed(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainGame.fxml"));
@@ -33,6 +27,7 @@ public class StartScreenController {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
+        Logger.info("Game Initialized");
     }
     @FXML
     public void prevGamesScene(ActionEvent actionEvent) {
@@ -41,6 +36,15 @@ public class StartScreenController {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
+        Logger.debug("Loading previous Match results");
+    }
+    private Parent fxmlLoading(FXMLLoader loader){
+        try {
+            return loader.load();
+        } catch (IOException e) {
+            Logger.error("Cannot load the FXML file"+"\n"+ e);
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
@@ -51,6 +55,10 @@ public class StartScreenController {
         var file = new File(absoluteFilePath);
         if (file.exists()) {
             file.delete();
+            Logger.info("Match history cleared");
+        }
+        else{
+            Logger.debug("There was no match history to clear");
         }
     }
 }

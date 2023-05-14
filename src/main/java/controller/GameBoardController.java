@@ -47,7 +47,6 @@ public class GameBoardController {
             }
         }
         bindSetup();
-        Logger.info("Game Initialized");
     }
     private StackPane createSquare(int row, int col) {
         var square = new StackPane();
@@ -65,6 +64,7 @@ public class GameBoardController {
         Stage stage = (Stage) gameBoard.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();
+        Logger.info("Back to the Start Menu");
     }
 
     @FXML
@@ -80,7 +80,9 @@ public class GameBoardController {
     @FXML
     public void previousModel() {
         model.undo();
+
         modelUpdate();
+        Logger.info("Last move undone");
     }
 
     @FXML
@@ -95,7 +97,7 @@ public class GameBoardController {
             modelUpdate();
             if (model.isOver()) {
                 Logger.info("The Game is Over");
-                Logger.info(("The scores are: White:%s   Black: %s")
+                Logger.info(("Scores: White:%s   Black: %s")
                         .formatted(numberOfWhiteDisks.getText(),numberOfBlackDisks.getText()));
                 nextScene();
             }
@@ -111,7 +113,6 @@ public class GameBoardController {
         currentColorValue.set(getOwnColor(model.currentColor()));
         whiteValue.set(String.valueOf(model.getWhiteNumber()));
         blackValue.set(String.valueOf(model.getBlackNumber()));
-
     }
     private void nextScene() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/endScreen.fxml"));
@@ -135,6 +136,7 @@ public class GameBoardController {
         try {
             return loader.load();
         } catch (IOException e) {
+            Logger.error("Cannot load the FXML file"+"\n"+ e);
             throw new RuntimeException(e);
         }
     }

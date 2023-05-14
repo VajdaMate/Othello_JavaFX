@@ -68,8 +68,6 @@ public class GameModel {
         return whiteNumber == 0 || blackNumber == 0 || blackNumber + whiteNumber == 64 || validNumber==0;
     }
 
-
-
     public void undo(){
         if (previousFlips.size()>=1) {
             ResultOfFlipping prevFlip = previousFlips.remove(previousFlips.size() - 1);
@@ -206,6 +204,4 @@ public class GameModel {
         }
         return directionVectors;
     }
-
-
 }

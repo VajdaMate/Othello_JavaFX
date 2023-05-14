@@ -52,7 +52,9 @@ public class EndScreenController {
         }
         endWhiteDisks.setText(String.valueOf(model.getWhiteNumber()));
         endBlackDisks.setText(String.valueOf(model.getBlackNumber()));
+        Logger.info("Showing results on the end screen");
         writeResult();
+
     }
 
     private Color getOwnColor(Colors color) {
@@ -75,13 +77,14 @@ public class EndScreenController {
             try {
                 endGameStates = objectMapper.readValue(file, new TypeReference<>() {});
             } catch (IOException e) {
+                Logger.error("Cannot create the JSON file"+"\n"+ e);
                 throw new RuntimeException("Cannot read the JSON file: " + e.getMessage());
             }
         }
         else {
+            Logger.debug("Created new JSON file to store match history");
             endGameStates = new ArrayList<>();
         }
-
         try {
             var writer = new FileWriter(absoluteFilePath);
             ArrayNode rootArrayNode = objectMapper.createArrayNode();
@@ -93,7 +96,9 @@ public class EndScreenController {
             ObjectNode newEndGameStateNode = objectMapper.valueToTree(newEndGameState);
             rootArrayNode.add(newEndGameStateNode);
             objectMapper.writeValue(writer, rootArrayNode);
+            Logger.info("Added game to match history");
         }catch (IOException e) {
+            Logger.error("Cannot write the JSON file"+"\n"+ e);
             throw new RuntimeException("Cannot write JSON file: " + e.getMessage());
         }
     }
@@ -116,13 +121,13 @@ public class EndScreenController {
         stage.setScene(new Scene(root));
         stage.show();
         Logger.info("Back to the Start Menu");
-
     }
 
     private Parent fxmlLoading(FXMLLoader loader){
         try {
             return loader.load();
         } catch (IOException e) {
+            Logger.error("Cannot load the FXML file"+"\n"+ e);
             throw new RuntimeException(e);
         }
     }
