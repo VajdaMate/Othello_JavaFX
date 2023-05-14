@@ -48,10 +48,12 @@ public class prevGameController {
         try {
             var absolutePath= Path.of("").toAbsolutePath().toString();
             String absoluteFilePath = absolutePath + File.separator + fileName;
-            var absolutFile=new File(absoluteFilePath);
-            List<EndGameState> endGameStates = objectMapper.readValue(absolutFile, new TypeReference<>() {
+            var file=new File(absoluteFilePath);
+            if (file.exists()) {
+            List<EndGameState> endGameStates = objectMapper.readValue(file, new TypeReference<>() {
             });
             this.endStates.addAll(endGameStates);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
