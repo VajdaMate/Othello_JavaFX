@@ -1,11 +1,11 @@
 package model;
 
-import org.tinylog.Logger;
-
 import java.util.ArrayList;
 import java.util.List;
 
+/** Represents the main logic of the game.*/
 public class GameModel {
+    /**Static element representing the size of the Board.*/
     public static int boardSize=8;
     private final Disk[][] gameBoard =new Disk[boardSize][boardSize];
     private boolean currentPlayer;
@@ -15,6 +15,10 @@ public class GameModel {
     private final List<ResultOfFlipping> previousFlips=new ArrayList<>();
     private EndGameState endGameState;
 
+    /**
+     * Instantiates GameModel by first initializing the board to be the start of Othello, then sets the current player to Black by the rules.
+     * Calculates valid steps, and current numbers of each player.
+     */
     public GameModel() {
         initializeBoard();
         currentPlayer=false;
@@ -35,18 +39,22 @@ public class GameModel {
         }
     }
 
+    /** @return Number of White disks*/
     public int getWhiteNumber() {
         return whiteNumber;
     }
 
+    /** @return Number of Black disks*/
     public int getBlackNumber() {
         return blackNumber;
     }
 
+    /** @return The state of the board at the end of the game*/
     public EndGameState getEndGameState() {
         return endGameState;
     }
 
+    /** @return The color of the opponent {@link Colors}*/
     public Colors opponentColor(){
         if (currentPlayer)
             return Colors.BLACK;
@@ -54,6 +62,7 @@ public class GameModel {
             return Colors.WHITE;
     }
 
+    /** @return The color of current player {@link Colors}*/
     public Colors currentColor(){
         if (currentPlayer)
             return Colors.WHITE;
@@ -61,10 +70,17 @@ public class GameModel {
             return Colors.BLACK;
     }
 
+    /**
+     * @param row The row index of the board
+     * @param col The column index of the board
+     * @return The disk at the given coordinates
+     */
     public  Disk getDisk(int row,int col) {
         return gameBoard[row][col];
     }
 
+    /**
+     * @return True, if the board is full, neither player has any valid moves, or either player has 0 disks, false otherwise */
     public boolean isGameOver(){
         if (whiteNumber == 0 || blackNumber == 0 || blackNumber + whiteNumber == 64 || validNumber==0){
             resetValid();
@@ -74,6 +90,10 @@ public class GameModel {
         return false;
     }
 
+    /**
+     * @return True, if there was anything to undo, based on the list of previous moves.
+     * Undoes the previous move, by restoring the flipped position's colors.
+     */
     public boolean undoLast(){
         if (previousFlips.size()>=1) {
             ResultOfFlipping prevFlip = previousFlips.remove(previousFlips.size() - 1);
@@ -87,6 +107,12 @@ public class GameModel {
         return false;
     }
 
+    /**
+     * Puts down a disk at the given coordinates, adds the move and the turned disks to {@code previousFlips} then switches to the next player.
+     * @param row The row index of the board
+     * @param col The column index of the board
+
+     */
     public void putDisk(int row, int col) {
         gameBoard[row][col].setColor(currentColor());
         Position triggerPosition = new Position(row, col);
