@@ -1,12 +1,13 @@
 # Othello Game
 
-This is a two-player board game created using JavaFX. The game is based on the classic board game Othello.
+This is a two-player board game created using JavaFX. The game is based on the classic board game Othello also known as reversi.
 
-## How to Play
-
-The game is played on an 8x8 board. Each player has a set of pieces that are black on one side and white on the other. The game starts with four pieces placed in the center of the board, two of each color.
-
-The objective of the game is to have more pieces of your color on the board than your opponent at the end of the game. The game ends when there are no more moves left for either player.
+## Rules
+- Played on a 8x8 board, starting with 4 disks in the middle, 2 black 2 white
+- A disk can only be placed in a way, that it encloses at least one disk of the opponent's disk
+- If a player does not have any valid moves, the enemy moves again
+- The game ends, if neither player has a valid move, the board is full, or only one color remains
+- One with the most disks at the end win, draws are possible, and if the scores are X:0, it means 64:0
 
 ## Requirements
 
@@ -17,5 +18,6 @@ The objective of the game is to have more pieces of your color on the board than
 
 1. Clone this repository.
 2. Open the project in your preferred IDE.
-3. Run the `main.GameMain.java` file.
+   - Run the `main.GameMain.java` file.
+   - Or package the game with Maven and run the JAR
 
