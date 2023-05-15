@@ -78,11 +78,12 @@ public class GameBoardController {
     }
 
     @FXML
-    public void previousModel() {
-        model.undo();
-
-        modelUpdate();
-        Logger.info("Last move undone");
+    public void undoLastMove() {
+        boolean wasThereAny=model.undoLast();
+        if (wasThereAny) {
+            modelUpdate();
+            Logger.info("Last move undone");
+        }
     }
 
     @FXML

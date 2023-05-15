@@ -1,5 +1,7 @@
 package model;
 
+import org.tinylog.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,10 +66,15 @@ public class GameModel {
     }
 
     public boolean isGameOver(){
-        return whiteNumber == 0 || blackNumber == 0 || blackNumber + whiteNumber == 64 || validNumber==0;
+        if (whiteNumber == 0 || blackNumber == 0 || blackNumber + whiteNumber == 64 || validNumber==0){
+            resetValid();
+            setUpEndGameState();
+            return true;
+        }
+        return false;
     }
 
-    public void undo(){
+    public boolean undoLast(){
         if (previousFlips.size()>=1) {
             ResultOfFlipping prevFlip = previousFlips.remove(previousFlips.size() - 1);
             gameBoard[prevFlip.getTriggerPosition().getRow()][prevFlip.getTriggerPosition().getColumn()].setColor(Colors.NONE);
@@ -75,7 +82,9 @@ public class GameModel {
                 gameBoard[flip.getRow()][flip.getColumn()].setColor(prevFlip.getColor());
             }
             nextPlayer();
+            return true;
         }
+        return false;
     }
 
     public void putDisk(int row, int col) {
@@ -119,11 +128,7 @@ public class GameModel {
     }
     private void nextPlayer(){
         calculateNumbers();
-        if (isGameOver()){
-            resetValid();
-            setUpEndGameState();
-        }
-        else {
+        if (!isGameOver()){
             currentPlayer = !currentPlayer;
             validSteps();
             if (validNumber == 0) {

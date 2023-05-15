@@ -78,7 +78,7 @@
                   <Insets bottom="20.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#previousModel" prefHeight="100.0" prefWidth="130.0" style="-fx-background-color: #ECECEC; -fx-border-color: #000000;" text="Undo">
+            <Button mnemonicParsing="false" onAction="#undoLastMove" prefHeight="100.0" prefWidth="130.0" style="-fx-background-color: #ECECEC; -fx-border-color: #000000;" text="Undo">
                <font>
                   <Font size="25.0" />
                </font>
