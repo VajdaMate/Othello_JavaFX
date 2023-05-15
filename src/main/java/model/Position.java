@@ -24,6 +24,12 @@ public class Position {
     public int getColumn() {
         return column;
     }
+
+
+    @Override
+    public String toString() {
+        return "(" + row+1 + "," + column+1 + ')';
+    }
 }
 
 

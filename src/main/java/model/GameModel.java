@@ -1,7 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /** Represents the main logic of the game.*/
 public class GameModel {
@@ -22,7 +24,7 @@ public class GameModel {
     public GameModel() {
         initializeBoard();
         currentPlayer=false;
-        validSteps();
+        validMoves();
         calculateNumbers();
     }
     private void initializeBoard(){
@@ -79,8 +81,7 @@ public class GameModel {
         return gameBoard[row][col];
     }
 
-    /**
-     * @return True, if the board is full, neither player has any valid moves, or either player has 0 disks, false otherwise */
+    /** @return True, if the board is full, neither player has any valid moves, or either player has 0 disks, false otherwise */
     public boolean isGameOver(){
         if (whiteNumber == 0 || blackNumber == 0 || blackNumber + whiteNumber == 64 || validNumber==0){
             resetValid();
@@ -90,10 +91,36 @@ public class GameModel {
         return false;
     }
 
-    /**
-     * @return True, if there was anything to undo, based on the list of previous moves.
-     * Undoes the previous move, by restoring the flipped position's colors.
-     */
+    /** @return The game board as a String, 0 meaning nothing, 1 meaning valid, W meaning white and B meaning black.*/
+    public String boardAsString() {
+        StringBuilder sb = new StringBuilder();
+        Arrays.stream(gameBoard)
+                .map(this::getRowString)
+                .forEach(rowString -> sb.append(rowString).append(System.lineSeparator()));
+
+        return sb.toString();
+    }
+
+    private String getRowString(Disk[] row) {
+        return Arrays.stream(row)
+                .map(disk -> switch (disk.getColor()) {
+                    case NONE -> "0";
+                    case VALID -> "1";
+                    case WHITE -> "W";
+                    case BLACK -> "B";
+                })
+                .collect(Collectors.joining(" "));
+    }
+
+    /** @return List of moves represented by Positions, for debugging reasons.*/
+    public List<Position> getAllMoves(){
+        return previousFlips.stream()
+                .map(ResultOfFlipping::getTriggerPosition)
+                .collect(Collectors.toList());
+    }
+
+    /** Undoes the previous move, by restoring the flipped position's colors.
+     * @return True, if there was anything to undo, based on the list of previous moves.*/
     public boolean undoLast(){
         if (previousFlips.size()>=1) {
             ResultOfFlipping prevFlip = previousFlips.remove(previousFlips.size() - 1);
@@ -156,10 +183,10 @@ public class GameModel {
         calculateNumbers();
         if (!isGameOver()){
             currentPlayer = !currentPlayer;
-            validSteps();
+            validMoves();
             if (validNumber == 0) {
                 currentPlayer = !currentPlayer;
-                validSteps();
+                validMoves();
             }
         }
     }
@@ -182,24 +209,26 @@ public class GameModel {
         this.blackNumber=tempBlackNumber;
     }
 
-    private void validSteps() {
+    private void validMoves() {
         resetValid();
-        ArrayList<Position> possibleSteps = possibleSteps();
-        for (var step : possibleSteps) {
-            var neighbourList=enemyNeighbours(step.getRow(), step.getColumn());
+        ArrayList<Position> possibleMoves = possibleMoves();
+        for (var move : possibleMoves) {
+            var neighbourList=enemyNeighbours(move.getRow(), move.getColumn());
             for (var vector:neighbourList){
                 int xAxisDirection = vector.xAxisDirection();
                 int yAxisDirection = vector.yAxisDirection();
-                int currentXPosition=step.getRow()+xAxisDirection;
-                int currentYPosition=step.getColumn()+yAxisDirection;
+                int currentXPosition=move.getRow()+xAxisDirection;
+                int currentYPosition=move.getColumn()+yAxisDirection;
                 while (((currentXPosition >= 0) && (currentXPosition <= 7)) &&
                         ((currentYPosition >= 0) && (currentYPosition <= 7))){
                     if (gameBoard[currentXPosition][currentYPosition].getColor()==currentColor()){
-                        gameBoard[step.getRow()][step.getColumn()].setColor(Colors.VALID);
+                        gameBoard[move.getRow()][move.getColumn()].setColor(Colors.VALID);
                         validNumber++;
                     }
-                    else if(gameBoard[currentXPosition][currentYPosition].getColor()==Colors.NONE)
+                    else if(gameBoard[currentXPosition][currentYPosition].getColor()==Colors.NONE ||
+                            gameBoard[currentXPosition][currentYPosition].getColor()==Colors.VALID){
                         break;
+                    }
                     currentXPosition+=xAxisDirection;
                     currentYPosition+=yAxisDirection;
                 }
@@ -216,7 +245,7 @@ public class GameModel {
         }
         validNumber=0;
     }
-    private ArrayList<Position> possibleSteps(){
+    private ArrayList<Position> possibleMoves(){
         ArrayList<Position> stepsList =new ArrayList<>();
         for (var row = 0; row < boardSize; row++) {
             for (var col = 0; col < boardSize; col++) {

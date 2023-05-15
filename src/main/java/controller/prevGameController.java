@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -97,6 +98,7 @@ public class prevGameController {
         label.setTextFill(color);
         label.setWrapText(true);
         label.setTextAlignment(TextAlignment.CENTER);
+        label.setAlignment(Pos.CENTER);
         label.setContentDisplay(javafx.scene.control.ContentDisplay.CENTER);
         return label;
     }

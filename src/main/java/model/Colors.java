@@ -1,4 +1,3 @@
-/** Package containing the logic of the game.*/
 package model;
 
 /**Enum representing possible colors of the disks.*/
