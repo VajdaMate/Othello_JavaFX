@@ -10,10 +10,16 @@ public class GameModel {
     private int whiteNumber;
     private int blackNumber;
     private int validNumber;
-    private boolean Over;
     private final List<ResultOfFlipping> previousFlips=new ArrayList<>();
     private EndGameState endGameState;
+
     public GameModel() {
+        initializeBoard();
+        currentPlayer=false;
+        validSteps();
+        calculateNumbers();
+    }
+    private void initializeBoard(){
         for (var row = 0; row < boardSize; row++) {
             for (var col = 0; col < boardSize; col++) {
                 gameBoard[row][col] = new Disk(Colors.NONE);
@@ -25,9 +31,6 @@ public class GameModel {
                 }
             }
         }
-        currentPlayer=false;
-        validSteps();
-        calculateNumbers();
     }
 
     public int getWhiteNumber() {
@@ -60,10 +63,6 @@ public class GameModel {
         return gameBoard[row][col];
     }
 
-    public boolean isOver() {
-        return Over;
-    }
-
     public boolean isGameOver(){
         return whiteNumber == 0 || blackNumber == 0 || blackNumber + whiteNumber == 64 || validNumber==0;
     }
@@ -79,30 +78,31 @@ public class GameModel {
         }
     }
 
-    public void putDisk(int row, int col){
+    public void putDisk(int row, int col) {
         gameBoard[row][col].setColor(currentColor());
+        Position triggerPosition = new Position(row, col);
+        List<Position> turnedPositions = flipDisks(row, col);
+        previousFlips.add(new ResultOfFlipping(triggerPosition,turnedPositions,opponentColor()));
+        nextPlayer();
+    }
+    private List<Position> flipDisks(int row, int col) {
+        List<Position> turnedPositions = new ArrayList<>();
         var neighbourList = enemyNeighbours(row, col);
-        Position triggerPosition=new Position(row,col);
-        List<Position> turnedPositions=new ArrayList<>();
         for (var vector : neighbourList) {
             List<Disk> needTurning = new ArrayList<>();
             int xAxisDirection = vector.xAxisDirection();
             int yAxisDirection = vector.yAxisDirection();
             int currentXPosition = row + xAxisDirection;
             int currentYPosition = col + yAxisDirection;
-            while ((currentXPosition >=0 && currentXPosition <= boardSize-1) &&
-                    (currentYPosition >= 0 && currentYPosition <=boardSize-1)) {
+            while ((currentXPosition >= 0 && currentXPosition <= boardSize - 1) &&
+                    (currentYPosition >= 0 && currentYPosition <= boardSize - 1)) {
                 if (gameBoard[currentXPosition][currentYPosition].getColor() == opponentColor()) {
                     needTurning.add(gameBoard[currentXPosition][currentYPosition]);
-                    turnedPositions.add(new Position(currentXPosition,currentYPosition));
-                }
-                else if (gameBoard[currentXPosition][currentYPosition].getColor() == currentColor()){
-                    for (var disk : needTurning) {
-                        disk.setColor(currentColor());
-                    }
+                    turnedPositions.add(new Position(currentXPosition, currentYPosition));
+                } else if (gameBoard[currentXPosition][currentYPosition].getColor() == currentColor()) {
+                    flipDisksInList(needTurning);
                     break;
-                }
-                else {
+                } else {
                     break;
                 }
                 currentXPosition += xAxisDirection;
@@ -110,14 +110,16 @@ public class GameModel {
 
             }
         }
-        previousFlips.add(new ResultOfFlipping(triggerPosition,turnedPositions,opponentColor()));
-        nextPlayer();
+        return turnedPositions;
     }
-
+    private void flipDisksInList(List<Disk> disks){
+        for (var disk : disks) {
+            disk.setColor(currentColor());
+        }
+    }
     private void nextPlayer(){
         calculateNumbers();
         if (isGameOver()){
-            Over=true;
             resetValid();
             setUpEndGameState();
         }
@@ -135,16 +137,18 @@ public class GameModel {
     }
 
     private void calculateNumbers(){
-        this.whiteNumber=0;
-        this.blackNumber=0;
+        int tempWhiteNumber=0;
+        int tempBlackNumber=0;
         for (var i = 0; i < boardSize; i++) {
             for (var j = 0; j < boardSize; j++) {
                 if (gameBoard[i][j].getColor()==Colors.WHITE)
-                    this.whiteNumber++;
+                    tempWhiteNumber++;
                 else if (gameBoard[i][j].getColor()==Colors.BLACK)
-                    this.blackNumber++;
+                    tempBlackNumber++;
             }
         }
+        this.whiteNumber=tempWhiteNumber;
+        this.blackNumber=tempBlackNumber;
     }
 
     private void validSteps() {

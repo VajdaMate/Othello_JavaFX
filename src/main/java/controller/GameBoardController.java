@@ -95,7 +95,7 @@ public class GameBoardController {
                     .formatted((model.currentColor().toString()),row+1,col+1));
             model.putDisk(row,col);
             modelUpdate();
-            if (model.isOver()) {
+            if (model.isGameOver()) {
                 Logger.info("The Game is Over");
                 Logger.info(("Scores: White:%s   Black: %s")
                         .formatted(numberOfWhiteDisks.getText(),numberOfBlackDisks.getText()));
