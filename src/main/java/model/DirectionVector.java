@@ -1,15 +1,15 @@
 package model;
 
 /**
- * Represents a Mathematical like vector for directions, except in the context of a Matrix.
- * Used in order to figure out which {@link Disk}-s are supposed to be flipped.
+ * Represents a Mathematical like vector for directions in the context of a Matrix.
+ * Used in order to figure out which {@link Disk}s are supposed to be flipped.
  */
 public class DirectionVector {
     private final int xAxisDirection;
     private final int yAxisDirection;
 
     /**
-     * Instantiates DirectionVector with x and y.
+     * Instantiates {@code DirectionVector} with x and y direction.
      * @param xAxisDirection Direction on the x Axis
      * @param yAxisDirection Direction on the y Axis
      */

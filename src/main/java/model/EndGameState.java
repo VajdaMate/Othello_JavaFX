@@ -10,7 +10,7 @@ public class EndGameState {
     public EndGameState() {}
 
     /**
-     * Instantiates EndGameState with the numbers of each {@link Colors} and the {@link Disk} matrix.
+     * Instantiates {@code EndGameState } with the numbers of each {@link Colors} and the {@link Disk} matrix.
      * @param whiteNumber Number of white disks
      * @param blackNumber Number of black disks
      * @param board       Instance of the gameBoard
@@ -21,17 +21,17 @@ public class EndGameState {
         this.board = board;
     }
 
-    /** @return Number of white disks at the end*/
+    /** @return Number of white {@link Disk}s at the end*/
     public int getWhiteNumber() {
         return whiteNumber;
     }
 
-    /** @return Number of black disks at the end*/
+    /** @return Number of black {@link Disk}s at the end*/
     public int getBlackNumber() {
         return blackNumber;
     }
 
-    /** @return The gameBoard at the end*/
+    /** @return The {@code gameBoard} of the model at the end*/
     public Disk[][] getBoard() {
         return board;
     }

@@ -66,6 +66,9 @@ public class EndScreenController {
         };
     }
 
+
+
+    @FXML
     private void writeResult()  {
         var objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
         var fileName="results.json";
@@ -102,8 +105,6 @@ public class EndScreenController {
             throw new RuntimeException("Cannot write JSON file: " + e.getMessage());
         }
     }
-
-    @FXML
     public void restartGame(ActionEvent actionEvent)  {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/mainGame.fxml"));
         Parent root = fxmlLoading(loader);

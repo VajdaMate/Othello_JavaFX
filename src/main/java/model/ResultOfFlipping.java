@@ -9,7 +9,7 @@ public class ResultOfFlipping {
     Colors currentColor;
 
     /**
-     * Instantiates ResultsOfFlipping with the given parameters.
+     * Instantiates {@code ResultsOfFlipping} with the given parameters.
      * @param triggerPosition The position triggering the flip
      * @param flippedPositions List of positions that got flipped
      * @param currentColor The color disks flipped to

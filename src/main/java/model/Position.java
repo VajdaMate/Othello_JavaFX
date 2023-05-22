@@ -1,12 +1,12 @@
 package model;
 
-/**Represents position on the board.*/
+/**Represents a position on the board.*/
 public class Position {
     private final int row;
     private final int column;
 
     /**
-     * Instantiates Position with given parameters.
+     * Instantiates {@code Position} with given parameters.
      * @param row Row index
      * @param column Column Index
      */
@@ -26,6 +26,7 @@ public class Position {
     }
 
 
+    /** @return A position as a string*/
     @Override
     public String toString() {
         return "(" + row+1 + "," + column+1 + ')';

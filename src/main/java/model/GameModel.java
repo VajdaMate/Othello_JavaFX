@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 /** Represents the main logic of the game.*/
 public class GameModel {
-    /**Static element representing the size of the Board.*/
+    /**Static element representing the size of the {@code gameBoard}.*/
     public static int boardSize=8;
     private final Disk[][] gameBoard =new Disk[boardSize][boardSize];
     private boolean currentPlayer;
@@ -18,8 +18,9 @@ public class GameModel {
     private EndGameState endGameState;
 
     /**
-     * Instantiates GameModel by first initializing the board to be the start of Othello, then sets the current player to Black by the rules.
-     * Calculates valid steps, and current numbers of each player.
+     * Instantiates {@code GameModel} by first initializing the {code gameBoard} to be the start of Othello,
+     * then sets the {@code currentPlayer} to Black by the rules.
+     * Calculates valid steps, and current numbers of each player's disks.
      */
     public GameModel() {
         initializeBoard();
@@ -41,22 +42,22 @@ public class GameModel {
         }
     }
 
-    /** @return Number of White disks*/
+    /** @return Number of White {@link Disk}s*/
     public int getWhiteNumber() {
         return whiteNumber;
     }
 
-    /** @return Number of Black disks*/
+    /** @return Number of Black {@link Disk}s*/
     public int getBlackNumber() {
         return blackNumber;
     }
 
-    /** @return The state of the board at the end of the game*/
+    /** @return The state of the {@code gameBoard} at the end of the game*/
     public EndGameState getEndGameState() {
         return endGameState;
     }
 
-    /** @return The color of the opponent {@link Colors}*/
+    /** @return The color of the opponent player based on the enum {@link Colors}*/
     public Colors opponentColor(){
         if (currentPlayer)
             return Colors.BLACK;
@@ -64,7 +65,7 @@ public class GameModel {
             return Colors.WHITE;
     }
 
-    /** @return The color of current player {@link Colors}*/
+    /** @return The color of current player based on the enum {@link Colors}*/
     public Colors currentColor(){
         if (currentPlayer)
             return Colors.WHITE;
@@ -73,15 +74,16 @@ public class GameModel {
     }
 
     /**
-     * @param row The row index of the board
-     * @param col The column index of the board
-     * @return The disk at the given coordinates
+     * @param row The row index of the {@code gameBoard}
+     * @param col The column index of the {@code gameBoard}
+     * @return The {@link Disk} at the given coordinates
      */
     public  Disk getDisk(int row,int col) {
         return gameBoard[row][col];
     }
 
-    /** @return True, if the board is full, neither player has any valid moves, or either player has 0 disks, false otherwise */
+    /** @return True, if the {@code gameBoard} is full, neither player has any valid moves,
+     *  or either player has 0 {@link Disk}s, false otherwise */
     public boolean isGameOver(){
         if (whiteNumber == 0 || blackNumber == 0 || blackNumber + whiteNumber == 64 || validNumber==0){
             resetValid();
@@ -91,7 +93,9 @@ public class GameModel {
         return false;
     }
 
-    /** @return The game board as a String, 0 meaning nothing, 1 meaning valid, W meaning white and B meaning black.*/
+    /**
+     * Function created for debugging purposes.
+     * @return The {@code gameBoard} as a String, 0 meaning nothing, 1 meaning valid, W meaning white and B meaning black.*/
     public String boardAsString() {
         StringBuilder sb = new StringBuilder();
         Arrays.stream(gameBoard)
@@ -112,15 +116,15 @@ public class GameModel {
                 .collect(Collectors.joining(" "));
     }
 
-    /** @return List of moves represented by Positions, for debugging reasons.*/
+    /** @return List of moves represented by {@link Position}, for debugging purposes.*/
     public List<Position> getAllMoves(){
         return previousFlips.stream()
                 .map(ResultOfFlipping::getTriggerPosition)
                 .collect(Collectors.toList());
     }
 
-    /** Undoes the previous move, by restoring the flipped position's colors.
-     * @return True, if there was anything to undo, based on the list of previous moves.*/
+    /** Undoes the previous move, by restoring the flipped {@link Disk}'s {@link Colors}.
+     * @return True, if there was anything to undo, based on the list of previous moves, false otherwise.*/
     public boolean undoLast(){
         if (previousFlips.size()>=1) {
             ResultOfFlipping prevFlip = previousFlips.remove(previousFlips.size() - 1);
@@ -135,7 +139,7 @@ public class GameModel {
     }
 
     /**
-     * Puts down a disk at the given coordinates, adds the move and the turned disks to {@code previousFlips} then switches to the next player.
+     * Puts down a {@link Disk} at the given coordinates, adds the move and the turned disks to {@code previousFlips} then switches to the next player.
      * @param row The row index of the board
      * @param col The column index of the board
 

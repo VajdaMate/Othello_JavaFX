@@ -5,10 +5,11 @@ import javafx.beans.property.SimpleObjectProperty;
 
 /** Class representing a disk by a color.*/
 public class Disk {
+    /**The one information this class stores, the color of the disk.*/
     private final SimpleObjectProperty<Colors> color;
 
     /**
-     * Instantiates Disk with specified color.
+     * Instantiates a {@code Disk} with the specified color.
      * @param color {@link Colors} element
      */
     public Disk(Colors color) {
@@ -20,7 +21,7 @@ public class Disk {
         this.color = new SimpleObjectProperty<>();
     }
 
-    /** @return color of the Disk*/
+    /** @return Color of the Disk*/
     public Colors getColor() {
         return color.get();
     }
