@@ -53,8 +53,7 @@ public class StartScreenController {
         String absolutePath = Path.of("").toAbsolutePath().toString();
         String absoluteFilePath = absolutePath + File.separator + fileName;
         var file = new File(absoluteFilePath);
-        if (file.exists()) {
-            file.delete();
+        if (file.delete()) {
             Logger.info("Match history cleared");
         }
         else{

@@ -15,16 +15,16 @@ public class GameModelTest {
 
     @Test
     public void testPutDisk() {
-        firstMove(4,5);
-        Disk disk = gameModel.getDisk(4, 5);
+        firstMove(2,3);
+        Disk disk = gameModel.getDisk(2, 3);
         Assertions.assertEquals(Colors.BLACK, disk.getColor());
     }
 
     @Test
     public void testUndoRemove() {
-        firstMove(4,5);
+        firstMove(5,4);
         gameModel.undoLast();
-        Disk disk = gameModel.getDisk(4, 5);
+        Disk disk = gameModel.getDisk(5, 4);
         Assertions.assertEquals(Colors.VALID, disk.getColor());
     }
     @Test
